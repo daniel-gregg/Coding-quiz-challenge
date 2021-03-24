@@ -8,12 +8,12 @@ const questions = [
     {
         question: "what is the colour of the sky?",
         options: ["blue","red","green","yellow"],
-        answer: 1
+        answer: [true,false,false,false]
     },
     {
         question: "what colour socks am i wearing?",
         options: ["blue","red","green","yellow"],
-        answer: 3
+        answer: [false,true,false,false]
     }
 ]
 
@@ -54,11 +54,11 @@ function renderQuestions(){
     qOptions = questions[questionNumber].options;
     qAnswer = questions[questionNumber].answer;
 
+    //update question text
+    document.getElementById("questionText").innerHTML = qText;
+
     //for loop to render radio button labels
-    for(i=0; i<qOptions.length;i++){
-        radioLabel = getRadioLabel(i);
-        radioLabel.innerHTML = qOptions[i];
-    }
+    renderRadioLabels()  // go to next question
 }
 
 function getRadioLabel(i){
@@ -67,9 +67,51 @@ function getRadioLabel(i){
         return label
 }
 
-function checkAnswer(){
+function renderRadioLabels(){
+    for(i=0; i<qOptions.length;i++){
+        radioLabel = getRadioLabel(i);
+        radioLabel.innerHTML = qOptions[i];
+    }
+}
+
+function answerSubmit(){
     event.preventDefault();
 
+    //check answer against marking schema
+    checkCorrect = checkAnswer();
+
+    if(checkCorrect == false){window.alert("wrong!!")}
+    if(checkCorrect == true){window.alert("right!!")}
+
+    //update questionNumber
+    questionNumber += 1
+
+    if(questionNumber < questions.length){
+        renderQuestions();  // go to next question
+    } else {
+        toggleDisplayComplete() // go to results screen
+    }
+}
+
+function checkAnswer(){
+    // all options and choices (checked values in radio buttons) must match
+    boolCorrect = questions[questionNumber].answer;
+    boolRadios = getAnswers(radios);
+    correct = true; //default to true and revert to false if a non-match is found
+    for(i=0; i<boolCorrect.length; i++){
+        check = boolCorrect[i] == boolRadios[i];
+        if(check == false){correct = false}
+    }
+    return correct;
+}
+
+// returns an array of booleans that indicate which option was selected by the user as their answer
+function getAnswers(radioArray){
+    answers=[];
+    for(i=0; i<radioArray.length;i++){
+        answers[i] = radioArray[i].checked;
+    }    
+    return answers;
 }
 
 function getScores(){

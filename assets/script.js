@@ -1,8 +1,11 @@
 var questionNumber = 0;
-var timerStart = 60000;
+var quizTime = 60;
+var time = quizTime;
 var quizComplete = false;
-const radios = document.getElementsByName("radio")  //get radios collection
+var score = quizTime;
+localStorage.setItem("topScores",JSON.stringify([0,0,0,0,0,0,0,0,0,0]));
 
+const radios = document.getElementsByName("radio")  //get radios collection
 
 const questions = [
     {
@@ -45,6 +48,8 @@ function startQuiz(){
 
     // fill out questions form with Q1
     renderQuestions();
+
+    startTimer();
 }
 
 function renderQuestions(){
@@ -80,8 +85,8 @@ function answerSubmit(){
     //check answer against marking schema
     checkCorrect = checkAnswer();
 
-    if(checkCorrect == false){window.alert("wrong!!")}
-    if(checkCorrect == true){window.alert("right!!")}
+    if(checkCorrect == false){window.alert("Eek, that was wrong ...😢")}
+    if(checkCorrect == true){window.alert("Yassss, that was correct! 🥳")}
 
     //update questionNumber
     questionNumber += 1
@@ -89,7 +94,7 @@ function answerSubmit(){
     if(questionNumber < questions.length){
         renderQuestions();  // go to next question
     } else {
-        toggleDisplayComplete() // go to results screen
+        quizComplete = true; // this stops the timer and calls toggleDisplayComplete
     }
 }
 
@@ -114,22 +119,73 @@ function getAnswers(radioArray){
     return answers;
 }
 
-function getScores(){
-    toggleDisplayComplete();
+function results(){
+    topScores = JSON.parse(localStorage.getItem("topScores"))  // get top scores
+    topScores.sort(function(a, b){return b-a});
+    _index = topScores.indexOf(score)
+    renderResults(_index);
+}
+
+function renderResults(_index){
+    if(_index>=0){
+        renderTopScore()  //function to enter this score in the topScores array in the correct position
+    } else {
+        renderScore()     // renders score with 'not top scores' text
+    }
+}
+
+function renderTopScore(){
+
+}
+
+function renderScore(){
+
+}
+
+function restartQuiz(){
+    resetQuiz()
 }
 
 function resetQuiz(){
     toggleDisplayReset();
+
+    //reset all quiz variables
+    questionNumber = 0;
+    quizComplete = false;
+    score = quizTime;
+    time = quizTime;
 }
 
 function startTimer(){
-    timer - setInterval(function(){
-        timerCount--;
-        //html timer text change here
+    timer = setInterval(quizTimer,1000)
+}
 
-        if(questionsComplete && timerCount>0){
-            clearInterval(timer);  //reset timer
-            winGame()  // call winGame function
-        }
-    })
+function quizTimer(){
+    time--;   //update time
+    score--;  //update score
+
+    scoreTimerUpdate();  //update html for score and timer
+
+    timerCheck();  //check any completion conditions
+}
+
+function scoreTimerUpdate(){
+    document.getElementById("score").innerHTML = "Your score (and time left!) is: " + score;
+}
+
+function timerCheck(){
+
+    if(time<=0){
+        clearInterval(timer);  //reset timer
+        window.alert("You're out of time!");  //alert user that they have run out of time without completing quiz
+        results();
+        toggleDisplayComplete();
+    }
+
+    if(time > 0 && quizComplete){
+        window.alert("You've completed the quiz!")
+        clearInterval(timer);
+        results();
+        toggleDisplayComplete();
+    }
 }

@@ -10,5 +10,10 @@
     display: none;
 }
 
+#score{
+    position: relative;
+    float: right;
+}
+
 
 

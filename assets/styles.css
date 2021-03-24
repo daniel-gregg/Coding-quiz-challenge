@@ -1,0 +1,14 @@
+#startQuiz{
+    display: block;
+}
+
+#questions{
+    display: none;
+}
+
+#results{
+    display: none;
+}
+
+
+

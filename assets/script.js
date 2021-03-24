@@ -1,6 +1,7 @@
 var questionNumber = 0;
 var timerStart = 60000;
 var quizComplete = false;
+const radios = document.getElementsByName("radio")  //get radios collection
 
 
 const questions = [
@@ -53,10 +54,17 @@ function renderQuestions(){
     qOptions = questions[questionNumber].options;
     qAnswer = questions[questionNumber].answer;
 
-    //for loop to render radio buttons.
+    //for loop to render radio button labels
     for(i=0; i<qOptions.length;i++){
-        //
+        radioLabel = getRadioLabel(i);
+        radioLabel.innerHTML = qOptions[i];
     }
+}
+
+function getRadioLabel(i){
+        var selector = 'label[for=' + radios[i].id + ']';
+        var label = document.querySelector(selector);
+        return label
 }
 
 function checkAnswer(){

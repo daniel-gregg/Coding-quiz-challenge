@@ -10,12 +10,20 @@
 <body>
     <header>
         <h1>Coding Quiz Challenge</h1>
-        <div id="score"></div>
     </header>
 
     <!-- introduction container - hidden after quiz is started -->
     <div id="startQuiz">
-        QUIZ DESCRIPTION </br>
+        <p>
+            This is not really a challenge. If you really want to know the answers, just CNTRL-SHIFT-J and look into the script!<br>
+            However, if you want to play, this is how it works:<br>
+            <ol>
+                <li>The quiz is timed (60 seconds).</li>
+                <li>Your score is the amount of time you have left (higher is 'better')</li>
+                <li>For incorrect answers you will be deducted 10 seconds from your remaining time (and hence score)</li>
+                <li>If you're lucky, or know me well, you might get onto the high-scorers list! (or you can just modify the localStorage items...)</li>
+            </ol>
+        </p>
         <input type="button" id="start-quiz" value="Start Quiz!" onclick="startQuiz()">
     </div>
 
@@ -46,18 +54,52 @@
     <!-- quiz results container - hidden until quiz is completed -->
     <div id="results">
         <div id="resultsHeader">
-            <span>Your score is:</span><span id="score"></span>
+            <span>Your score is:</span><span id="results-score"></span>
+        </div>
+
+        <div id="enter-name">
+            <label for="player-name">Please enter your name: </label>
+            <input type="text" id="player-name" name="player-name"><br><br>
+            <input type="submit" value="Submit" id="submit-name" onclick="renderResults()">
         </div>
     
-        <div id="scoresTable">
-            <!-- Use javascript to make a scores table here -->
-            SCORES TABLE HERE
+        <div id="scores-table">
+            <!-- Use javascript to show scores table here -->
+            <table>
+                <th>
+                    <td>Top Scores (highest to lowest)</td>
+                    <td>Name</td>
+                </th>
+                <tr>
+                    <td id="score1"></td>
+                    <td id="name1"></td>
+                </tr>
+                <tr>
+                    <td id="score2"></td>
+                    <td id="name2"></td>
+                </tr>
+                <tr>
+                    <td id="score3"></td>
+                    <td id="name3"></td>
+                </tr>
+                <tr>
+                    <td id="score4"></td>
+                    <td id="name4"></td>
+                </tr>
+                <tr>
+                    <td id="score5"></td>
+                    <td id="name5"></td>
+                </tr>
+            </table>
         </div>
-    
-        <div id="restartDiv">
+
+        <div id="restart-div">
             <input type="button" value="Back to Start" onclick="restartQuiz()">
         </div>
     </div>
+
+    <!-- Show score div -->
+    <div id="score"></div>
     
     <script src="./assets/script.js"></script>
 </body>

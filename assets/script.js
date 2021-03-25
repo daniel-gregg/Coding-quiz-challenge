@@ -17,14 +17,29 @@ const radios = document.getElementsByName("radio")  //get radios collection
 
 const questions = [
     {
-        question: "what is the colour of the sky?",
-        options: ["blue","red","green","yellow"],
-        answer: [true,false,false,false]
+        question: "What kind of pet do I have?",
+        options: ["Parrot","Green frog","Spaniel","Kelpie"],
+        answer: [false,false,false,true]
     },
     {
-        question: "what colour socks am i wearing?",
-        options: ["blue","red","green","yellow"],
+        question: "Who buys my underwear?",
+        options: ["Me","Mum","Partner","Strangers"],
         answer: [false,true,false,false]
+    },
+    {
+        question: "I was born in the mid 1980's: how old am I?",
+        options: ["Mid 40's","Early 80's","6 years","Mid 30's"],
+        answer: [false,false,false,true]
+    },
+    {
+        question: "I like it hot: what state was I born in?",
+        options: ["Northern Territory","Queensland","Western Australia","Tasmania"],
+        answer: [false,false,false,false]  //This is a trick question - the NT is not a state!
+    },
+    {
+        question: "I speak:",
+        options: ["Darwinian","Kiwi","A little English","All of the above"],
+        answer: [false,false,false,true]  
     }
 ]
 
@@ -35,26 +50,6 @@ function toggleDisplayStart(){
     document.getElementById("questions").style.display="block";
     document.getElementById("results").style.display="none";
     document.getElementById("score").style.display="block";
-}
-
-
-function toggleDisplayComplete(){
-    document.getElementById("startQuiz").style.display="none";
-    document.getElementById("questions").style.display="none";
-    document.getElementById("results").style.display="block";
-    document.getElementById("score").style.display="none";
-
-    document.getElementById("scores-table").style.display = "none"
-    document.getElementById("enter-name").style.display = "block"
-    document.getElementById("restart-div").style.display = "none"
-}
-
-
-function toggleDisplayReset(){
-    document.getElementById("startQuiz").style.display="block";
-    document.getElementById("questions").style.display="none";
-    document.getElementById("results").style.display="none";
-    document.getElementById("score").style.display="none";
 }
 
 
@@ -211,10 +206,23 @@ function timerCheck(){
     }
 }
 
-function renderResults(){
 
+function toggleDisplayComplete(){
+    document.getElementById("startQuiz").style.display="none";
+    document.getElementById("questions").style.display="none";
+    document.getElementById("results").style.display="block";
+    document.getElementById("score").style.display="none";
+
+    document.getElementById("scores-table").style.display = "none"
+    document.getElementById("enter-name").style.display = "block"
+    document.getElementById("restart-div").style.display = "none"
+
+    score = (score/1000).toFixed(0)
     document.getElementById("results-score").innerHTML = score
+}
 
+
+function renderResults(){
     renderResultsTable();
 
     document.getElementById("enter-name").style.display = "none"
@@ -303,4 +311,12 @@ function restartQuiz(){
     quizComplete = false;
     score = time;
     time = time;
+}
+
+
+function toggleDisplayReset(){
+    document.getElementById("startQuiz").style.display="block";
+    document.getElementById("questions").style.display="none";
+    document.getElementById("results").style.display="none";
+    document.getElementById("score").style.display="none";
 }

@@ -1,8 +1,7 @@
 var questionNumber = 0;
-var quizTime = 60;
-var time = quizTime;
+var time = 60000;
 var quizComplete = false;
-var score = quizTime;
+var score = 60000;
 
 function checkLocal(){
     if(localStorage.getItem("topScores")==null){
@@ -127,6 +126,9 @@ function answerSubmit(){
 
     if(checkCorrect == false){
         window.alert("Eek, that was wrong ...😢");
+        clearInterval(timer); 
+        time = time -10000;
+        timer = setInterval(quizTimer,100)
     }
     if(checkCorrect == true){window.alert("Yassss, that was correct! 🥳")}
 
@@ -175,13 +177,13 @@ function getUserAnswers(radioArray){
 
 
 function startTimer(){
-    timer = setInterval(quizTimer,1000)
+    timer = setInterval(quizTimer,100)
 }
 
 
 function quizTimer(){
-    time--;   //update time
-    score--;  //update score
+    time = time - 100;   //update time
+    score = time - 100;  //update score
 
     scoreTimerUpdate();  //update html for score and timer
 
@@ -190,7 +192,7 @@ function quizTimer(){
 
 
 function scoreTimerUpdate(){
-    document.getElementById("score").innerHTML = "Your time left is: " + score;
+    document.getElementById("score").innerHTML = "Your time left is: " + (time/1000).toFixed(0);
 }
 
 
@@ -299,6 +301,6 @@ function restartQuiz(){
     //reset all quiz variables
     questionNumber = 0;
     quizComplete = false;
-    score = quizTime;
-    time = quizTime;
+    score = time;
+    time = time;
 }

@@ -1,4 +1,5 @@
 var questionNumber = 0;
+var timeBase = 60000;
 var time = 60000;
 var quizComplete = false;
 var score = 60000;
@@ -108,8 +109,8 @@ function getRadioLabel(i){
 }
 
 
-function answerSubmit(){
-    event.preventDefault();
+function answerSubmit(event){
+    //event.preventDefault();
 
     if(hasNotAnswered()){
         window.alert("please make at least one choice!");
@@ -120,10 +121,8 @@ function answerSubmit(){
     checkCorrect = checkAnswer();
 
     if(checkCorrect == false){
-        window.alert("Eek, that was wrong ...😢");
-        clearInterval(timer); 
+        window.alert("Eek, that was wrong ...😢"); 
         time = time -10000;
-        timer = setInterval(quizTimer,100)
     }
     if(checkCorrect == true){window.alert("Yassss, that was correct! 🥳")}
 
@@ -309,8 +308,8 @@ function restartQuiz(){
     //reset all quiz variables
     questionNumber = 0;
     quizComplete = false;
-    score = time;
-    time = time;
+    time = timeBase;
+    score = timeBase;
 }
 
 
